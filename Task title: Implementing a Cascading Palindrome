@@ -1,0 +1,39 @@
+class CascadingPalindrome:
+    def __init__(self, input_str):
+        self.input_str = input_str
+    
+    @staticmethod
+    def is_palindrome(s):
+        # Time complexity: O(n/2) => O(n)
+        return s == s[::-1]
+    
+    def validate(self):
+        # This validation checks for allowed characters (alpha-numeric and space). 
+        # You can adjust the regex pattern to include other allowed characters.
+        import re
+        if not re.match("^[A-Za-z0-9\s]+$", self.input_str):
+            return False
+        return True
+
+    def find_palindromes(self):
+        if not self.validate():
+            raise ValueError("Invalid input. Only alphanumeric characters and spaces are allowed.")
+        
+        components = self.input_str.split() # Split the string into words/numbers.
+        
+        # Using a list comprehension for memory efficiency (no append operations).
+        return ' '.join([component for component in components if self.is_palindrome(component)])
+
+try:
+    cp = CascadingPalindrome("1230321 09234 0124210")
+    print(cp.find_palindromes()) # Should print: 1230321 0124210
+    
+    cp2 = CascadingPalindrome("abcd5dcba 1230321 09234 0124210")
+    print(cp2.find_palindromes()) # Should print: abcd5dcba 1230321 0124210
+
+    # This will raise an error due to the special character.
+    cp3 = CascadingPalindrome("abcd5dcba! 1230321 09234 0124210")
+    print(cp3.find_palindromes())
+    
+except ValueError as ve:
+    print(ve)
